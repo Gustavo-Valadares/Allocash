@@ -91,7 +91,7 @@ const Index = () => {
               R$
             </span>
             <Input
-              className="pl-11 h-14 text-2xl font-semibold"
+              className="pl-11 h-12 sm:h-14 text-xl sm:text-2xl font-semibold"
               placeholder="0,00"
               value={capital}
               onChange={(e) => setCapital(e.target.value)}
