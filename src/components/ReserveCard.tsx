@@ -25,7 +25,7 @@ const ReserveCard = ({ name, percentage, value, onEdit, onDelete }: ReserveCardP
               {percentage}%
             </p>
           </div>
-          <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="flex gap-1 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
             <Button variant="ghost" size="icon" className="h-8 w-8" onClick={onEdit}>
               <Pencil className="h-3.5 w-3.5" />
             </Button>

@@ -80,7 +80,7 @@ const Index = () => {
         </div>
       </header>
 
-      <main className="container max-w-5xl mx-auto px-4 py-8 space-y-8">
+      <main className="container max-w-5xl mx-auto px-4 py-6 sm:py-8 space-y-6 sm:space-y-8">
         {/* Capital Input */}
         <section className="space-y-3">
           <label className="text-sm font-medium text-muted-foreground">
@@ -91,7 +91,7 @@ const Index = () => {
               R$
             </span>
             <Input
-              className="pl-11 h-14 text-2xl font-semibold"
+              className="pl-11 h-12 sm:h-14 text-xl sm:text-2xl font-semibold"
               placeholder="0,00"
               value={capital}
               onChange={(e) => setCapital(e.target.value)}
