@@ -80,7 +80,7 @@ const Index = () => {
         </div>
       </header>
 
-      <main className="container max-w-5xl mx-auto px-4 py-8 space-y-8">
+      <main className="container max-w-5xl mx-auto px-4 py-6 sm:py-8 space-y-6 sm:space-y-8">
         {/* Capital Input */}
         <section className="space-y-3">
           <label className="text-sm font-medium text-muted-foreground">
