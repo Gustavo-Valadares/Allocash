@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
-import { Plus, Wallet, PieChart } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Plus, Wallet, PieChart, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
@@ -66,16 +67,24 @@ const Index = () => {
       {/* Header */}
       <header className="border-b bg-card">
         <div className="container max-w-5xl mx-auto px-4 py-6">
-          <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center">
-              <Wallet className="h-5 w-5 text-primary-foreground" />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center">
+                <Wallet className="h-5 w-5 text-primary-foreground" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold">Gestão de Orçamento</h1>
+                <p className="text-sm text-muted-foreground">
+                  Distribua seu capital por porcentagem
+                </p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-xl font-bold">Gestão de Orçamento</h1>
-              <p className="text-sm text-muted-foreground">
-                Distribua seu capital por porcentagem
-              </p>
-            </div>
+            <Link to="/signup">
+              <Button variant="outline" size="sm" className="gap-2">
+                <UserPlus className="w-4 h-4" />
+                <span className="hidden sm:inline">Cadastrar</span>
+              </Button>
+            </Link>
           </div>
         </div>
       </header>
