@@ -298,58 +298,70 @@ const Index = () => {
         )}
 
         {/* Reserve Cards */}
-        <section className="space-y-4">
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <div>
-              <h2 className="text-lg font-semibold">
-                {activeSet ? `Reservas — ${activeSet.name}` : "Reservas"}
-              </h2>
-              {activeSet && (
-                <p className="text-xs text-muted-foreground">Editando conjunto salvo</p>
-              )}
-            </div>
-            <div className="flex gap-2">
-              {reserves.length > 0 && (
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => setSetNameModalOpen(true)}
-                  className="gap-2"
-                >
-                  <Save className="h-4 w-4" />
-                  {activeSet ? "Atualizar conjunto" : "Salvar conjunto"}
+        <Collapsible open={reservesOpen} onOpenChange={setReservesOpen} asChild>
+          <section className="space-y-4">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <CollapsibleTrigger asChild>
+                <button className="flex items-center gap-2 text-left group">
+                  <div>
+                    <h2 className="text-lg font-semibold flex items-center gap-2">
+                      {activeSet ? `Reservas — ${activeSet.name}` : "Reservas"}
+                      <span className="text-xs text-muted-foreground font-normal">({reserves.length})</span>
+                      <ChevronDown
+                        className={`h-4 w-4 text-muted-foreground transition-transform ${reservesOpen ? "rotate-180" : ""}`}
+                      />
+                    </h2>
+                    {activeSet && (
+                      <p className="text-xs text-muted-foreground">Editando conjunto salvo</p>
+                    )}
+                  </div>
+                </button>
+              </CollapsibleTrigger>
+              <div className="flex gap-2">
+                {reserves.length > 0 && (
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => setSetNameModalOpen(true)}
+                    className="gap-2"
+                  >
+                    <Save className="h-4 w-4" />
+                    <span className="hidden sm:inline">{activeSet ? "Atualizar conjunto" : "Salvar conjunto"}</span>
+                  </Button>
+                )}
+                <Button onClick={handleNew} size="sm" disabled={remainingPercentage <= 0}>
+                  <Plus className="h-4 w-4 mr-1" />
+                  Nova Reserva
                 </Button>
-              )}
-              <Button onClick={handleNew} size="sm" disabled={remainingPercentage <= 0}>
-                <Plus className="h-4 w-4 mr-1" />
-                Nova Reserva
-              </Button>
+              </div>
             </div>
-          </div>
 
-          {reserves.length === 0 ? (
-            <div className="text-center py-16 text-muted-foreground">
-              <PieChart className="h-12 w-12 mx-auto mb-3 opacity-30" />
-              <p>Nenhuma reserva criada.</p>
-              <p className="text-sm">
-                Clique em "Nova Reserva" para começar ou aplique um conjunto salvo.
-              </p>
-            </div>
-          ) : (
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {reserves.map((reserve) => (
-                <ReserveCard
-                  key={reserve.id}
-                  name={reserve.name}
-                  percentage={reserve.percentage}
-                  value={(capitalValue * reserve.percentage) / 100}
-                  onEdit={() => handleEdit(reserve)}
-                  onDelete={() => handleDelete(reserve.id)}
-                />
-              ))}
-            </div>
-          )}
-        </section>
+            <CollapsibleContent className="space-y-4 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0">
+              {reserves.length === 0 ? (
+                <div className="text-center py-16 text-muted-foreground">
+                  <PieChart className="h-12 w-12 mx-auto mb-3 opacity-30" />
+                  <p>Nenhuma reserva criada.</p>
+                  <p className="text-sm">
+                    Clique em "Nova Reserva" para começar ou aplique um conjunto salvo.
+                  </p>
+                </div>
+              ) : (
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {reserves.map((reserve) => (
+                    <ReserveCard
+                      key={reserve.id}
+                      name={reserve.name}
+                      percentage={reserve.percentage}
+                      value={(capitalValue * reserve.percentage) / 100}
+                      onEdit={() => handleEdit(reserve)}
+                      onDelete={() => handleDelete(reserve.id)}
+                    />
+                  ))}
+                </div>
+              )}
+            </CollapsibleContent>
+          </section>
+        </Collapsible>
       </main>
 
       <ReserveModal
