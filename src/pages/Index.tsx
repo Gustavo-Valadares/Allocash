@@ -1,10 +1,11 @@
 import { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Plus, Wallet, PieChart, UserPlus, Save, FolderOpen, Trash2, Layers } from "lucide-react";
+import { Plus, Wallet, PieChart, UserPlus, Save, FolderOpen, Trash2, Layers, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { Card, CardContent } from "@/components/ui/card";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import ReserveCard from "@/components/ReserveCard";
 import ReserveModal from "@/components/ReserveModal";
 import SetNameModal from "@/components/SetNameModal";
