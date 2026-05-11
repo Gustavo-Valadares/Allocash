@@ -182,8 +182,8 @@ const Index = () => {
                   <Layers className="h-5 w-5" />
                   Meus conjuntos
                   <span className="text-xs text-muted-foreground font-normal">({sets.length})</span>
-                  <ChevronDown
-                    className={`h-4 w-4 text-muted-foreground transition-transform ${setsOpen ? "rotate-180" : ""}`}
+                  <ChevronRight
+                    className={`h-4 w-4 text-muted-foreground transition-transform ${setsOpen ? "rotate-90" : ""}`}
                   />
                 </button>
               </CollapsibleTrigger>
