@@ -35,6 +35,8 @@ const Index = () => {
   const [sets, setSets] = useState<ReserveSet[]>([]);
   const [setNameModalOpen, setSetNameModalOpen] = useState(false);
   const [activeSetId, setActiveSetId] = useState<string | null>(null);
+  const [setsOpen, setSetsOpen] = useState(true);
+  const [reservesOpen, setReservesOpen] = useState(true);
 
   // Load saved sets
   useEffect(() => {
