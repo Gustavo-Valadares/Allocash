@@ -32,7 +32,7 @@ const Index = () => {
   const [editingReserve, setEditingReserve] = useState<Reserve | null>(null);
 
   const [sets, setSets] = useState<ReserveSet[]>([]);
-  const [setModalOpen, setSetModalOpen] = useState(false);
+  const [setNameModalOpen, setSetNameModalOpen] = useState(false);
   const [activeSetId, setActiveSetId] = useState<string | null>(null);
 
   // Load saved sets
@@ -300,7 +300,7 @@ const Index = () => {
                 <Button
                   size="sm"
                   variant="outline"
-                  onClick={() => setSetModalOpen(true)}
+                  onClick={() => setSetNameModalOpen(true)}
                   className="gap-2"
                 >
                   <Save className="h-4 w-4" />
@@ -351,8 +351,8 @@ const Index = () => {
       />
 
       <SetNameModal
-        open={setModalOpen}
-        onClose={() => setSetModalOpen(false)}
+        open={setNameModalOpen}
+        onClose={() => setSetNameModalOpen(false)}
         onSave={handleSaveSet}
         initialName={activeSet?.name ?? ""}
       />
