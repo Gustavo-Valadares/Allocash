@@ -263,40 +263,6 @@ const Index = () => {
           </section>
         </Collapsible>
 
-        {/* Percentage bar */}
-        {reserves.length > 0 && (
-          <section className="space-y-2">
-            <div className="flex items-center justify-between text-sm">
-              <span className="flex items-center gap-2 text-muted-foreground">
-                <PieChart className="h-4 w-4" />
-                Alocação total
-              </span>
-              <span
-                className={`font-semibold ${
-                  totalPercentage === 100
-                    ? "text-primary"
-                    : totalPercentage > 100
-                    ? "text-destructive"
-                    : "text-muted-foreground"
-                }`}
-              >
-                {totalPercentage.toFixed(1)}% / 100%
-              </span>
-            </div>
-            <Progress value={Math.min(totalPercentage, 100)} className="h-2" />
-            {totalPercentage > 100 && (
-              <p className="text-xs text-destructive">
-                A soma das porcentagens excede 100%!
-              </p>
-            )}
-            {totalPercentage < 100 && (
-              <p className="text-xs text-muted-foreground">
-                {remainingPercentage.toFixed(1)}% restante para alocar
-              </p>
-            )}
-          </section>
-        )}
-
         {/* Reserve Cards */}
         <Collapsible open={reservesOpen} onOpenChange={setReservesOpen} asChild>
           <section className="space-y-4">
