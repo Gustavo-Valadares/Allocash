@@ -273,8 +273,8 @@ const Index = () => {
                     <h2 className="text-lg font-semibold flex items-center gap-2">
                       {activeSet ? `Reservas — ${activeSet.name}` : "Reservas"}
                       <span className="text-xs text-muted-foreground font-normal">({reserves.length})</span>
-                      <ChevronDown
-                        className={`h-4 w-4 text-muted-foreground transition-transform ${reservesOpen ? "rotate-180" : ""}`}
+                      <ChevronRight
+                        className={`h-4 w-4 text-muted-foreground transition-transform ${reservesOpen ? "rotate-90" : ""}`}
                       />
                     </h2>
                     {activeSet && (
