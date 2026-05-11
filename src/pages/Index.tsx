@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Plus, Wallet, PieChart, UserPlus, Save, FolderOpen, Trash2, Layers, ChevronDown } from "lucide-react";
+import { Plus, Wallet, PieChart, UserPlus, Save, FolderOpen, Trash2, Layers, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
@@ -182,8 +182,8 @@ const Index = () => {
                   <Layers className="h-5 w-5" />
                   Meus conjuntos
                   <span className="text-xs text-muted-foreground font-normal">({sets.length})</span>
-                  <ChevronDown
-                    className={`h-4 w-4 text-muted-foreground transition-transform ${setsOpen ? "rotate-180" : ""}`}
+                  <ChevronRight
+                    className={`h-4 w-4 text-muted-foreground transition-transform ${setsOpen ? "rotate-90" : ""}`}
                   />
                 </button>
               </CollapsibleTrigger>
@@ -263,40 +263,6 @@ const Index = () => {
           </section>
         </Collapsible>
 
-        {/* Percentage bar */}
-        {reserves.length > 0 && (
-          <section className="space-y-2">
-            <div className="flex items-center justify-between text-sm">
-              <span className="flex items-center gap-2 text-muted-foreground">
-                <PieChart className="h-4 w-4" />
-                Alocação total
-              </span>
-              <span
-                className={`font-semibold ${
-                  totalPercentage === 100
-                    ? "text-primary"
-                    : totalPercentage > 100
-                    ? "text-destructive"
-                    : "text-muted-foreground"
-                }`}
-              >
-                {totalPercentage.toFixed(1)}% / 100%
-              </span>
-            </div>
-            <Progress value={Math.min(totalPercentage, 100)} className="h-2" />
-            {totalPercentage > 100 && (
-              <p className="text-xs text-destructive">
-                A soma das porcentagens excede 100%!
-              </p>
-            )}
-            {totalPercentage < 100 && (
-              <p className="text-xs text-muted-foreground">
-                {remainingPercentage.toFixed(1)}% restante para alocar
-              </p>
-            )}
-          </section>
-        )}
-
         {/* Reserve Cards */}
         <Collapsible open={reservesOpen} onOpenChange={setReservesOpen} asChild>
           <section className="space-y-4">
@@ -307,8 +273,8 @@ const Index = () => {
                     <h2 className="text-lg font-semibold flex items-center gap-2">
                       {activeSet ? `Reservas — ${activeSet.name}` : "Reservas"}
                       <span className="text-xs text-muted-foreground font-normal">({reserves.length})</span>
-                      <ChevronDown
-                        className={`h-4 w-4 text-muted-foreground transition-transform ${reservesOpen ? "rotate-180" : ""}`}
+                      <ChevronRight
+                        className={`h-4 w-4 text-muted-foreground transition-transform ${reservesOpen ? "rotate-90" : ""}`}
                       />
                     </h2>
                     {activeSet && (
@@ -337,6 +303,38 @@ const Index = () => {
             </div>
 
             <CollapsibleContent className="space-y-4 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0">
+              {reserves.length > 0 && (
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="flex items-center gap-2 text-muted-foreground">
+                      <PieChart className="h-4 w-4" />
+                      Alocação total
+                    </span>
+                    <span
+                      className={`font-semibold ${
+                        totalPercentage === 100
+                          ? "text-primary"
+                          : totalPercentage > 100
+                          ? "text-destructive"
+                          : "text-muted-foreground"
+                      }`}
+                    >
+                      {totalPercentage.toFixed(1)}% / 100%
+                    </span>
+                  </div>
+                  <Progress value={Math.min(totalPercentage, 100)} className="h-2" />
+                  {totalPercentage > 100 && (
+                    <p className="text-xs text-destructive">
+                      A soma das porcentagens excede 100%!
+                    </p>
+                  )}
+                  {totalPercentage < 100 && (
+                    <p className="text-xs text-muted-foreground">
+                      {remainingPercentage.toFixed(1)}% restante para alocar
+                    </p>
+                  )}
+                </div>
+              )}
               {reserves.length === 0 ? (
                 <div className="text-center py-16 text-muted-foreground">
                   <PieChart className="h-12 w-12 mx-auto mb-3 opacity-30" />
