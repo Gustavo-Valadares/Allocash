@@ -303,6 +303,38 @@ const Index = () => {
             </div>
 
             <CollapsibleContent className="space-y-4 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0">
+              {reserves.length > 0 && (
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="flex items-center gap-2 text-muted-foreground">
+                      <PieChart className="h-4 w-4" />
+                      Alocação total
+                    </span>
+                    <span
+                      className={`font-semibold ${
+                        totalPercentage === 100
+                          ? "text-primary"
+                          : totalPercentage > 100
+                          ? "text-destructive"
+                          : "text-muted-foreground"
+                      }`}
+                    >
+                      {totalPercentage.toFixed(1)}% / 100%
+                    </span>
+                  </div>
+                  <Progress value={Math.min(totalPercentage, 100)} className="h-2" />
+                  {totalPercentage > 100 && (
+                    <p className="text-xs text-destructive">
+                      A soma das porcentagens excede 100%!
+                    </p>
+                  )}
+                  {totalPercentage < 100 && (
+                    <p className="text-xs text-muted-foreground">
+                      {remainingPercentage.toFixed(1)}% restante para alocar
+                    </p>
+                  )}
+                </div>
+              )}
               {reserves.length === 0 ? (
                 <div className="text-center py-16 text-muted-foreground">
                   <PieChart className="h-12 w-12 mx-auto mb-3 opacity-30" />
