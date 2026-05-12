@@ -328,7 +328,7 @@ const Index = () => {
                   title={reserves.length === 0 ? "Adicione ao menos uma reserva" : undefined}
                 >
                   {activeSet ? (
-                    <RefreshCw className="h-4 w-4" />
+                    <ClipboardEdit className="h-4 w-4" />
                   ) : (
                     <span className="relative inline-flex items-center justify-center">
                       <Filter className="h-4 w-4" />
