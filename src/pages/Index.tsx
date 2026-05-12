@@ -1,6 +1,16 @@
 import { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Plus, Wallet, PieChart, UserPlus, Save, FolderOpen, Trash2, Layers, ChevronRight } from "lucide-react";
+import { Plus, Wallet, PieChart, UserPlus, Save, Sparkles, RefreshCw, Trash2, Layers, ChevronRight, Check } from "lucide-react";
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
+
+const SET_GRADIENTS = [
+  "from-violet-500 to-indigo-600 text-white",
+  "from-cyan-400 to-sky-500 text-white",
+  "from-fuchsia-500 to-pink-600 text-white",
+  "from-emerald-400 to-teal-600 text-white",
+  "from-amber-400 to-orange-500 text-white",
+  "from-slate-700 to-slate-900 text-white",
+];
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
