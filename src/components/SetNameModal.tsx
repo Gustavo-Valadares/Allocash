@@ -35,13 +35,13 @@ const SetNameModal = ({ open, onClose, onSave, initialName = "" }: SetNameModalP
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Salvar conjunto</DialogTitle>
+          <DialogTitle>Salvar filtro</DialogTitle>
           <DialogDescription>
-            Dê um nome para identificar esse conjunto de reservas.
+            Dê um nome para identificar esse filtro de reservas.
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-2 py-2">
-          <Label htmlFor="set-name">Nome do conjunto</Label>
+          <Label htmlFor="set-name">Nome do filtro</Label>
           <Input
             id="set-name"
             placeholder="Ex: Administração salarial"
