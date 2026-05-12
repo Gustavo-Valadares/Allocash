@@ -213,61 +213,72 @@ const Index = () => {
                   </CardContent>
                 </Card>
               ) : (
-                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                  {sets.map((set) => {
-                    const isActive = set.id === activeSetId;
-                    return (
-                      <Card
-                        key={set.id}
-                        className={`transition-all ${isActive ? "border-primary ring-1 ring-primary/40" : ""}`}
-                      >
-                        <CardContent className="p-4 space-y-3">
-                          <div className="flex items-start justify-between gap-2">
-                            <div className="min-w-0">
-                              <p className="font-semibold truncate">{set.name}</p>
-                              <p className="text-xs text-muted-foreground">
-                                {set.reserves.length} reservas
-                              </p>
-                            </div>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="h-8 w-8 text-destructive hover:text-destructive shrink-0"
-                              onClick={() => handleDeleteSet(set.id)}
-                            >
-                              <Trash2 className="h-3.5 w-3.5" />
-                            </Button>
-                          </div>
-                          <div className="flex flex-wrap gap-1">
-                            {set.reserves.slice(0, 4).map((r) => (
-                              <span
-                                key={r.id}
-                                className="text-xs px-2 py-0.5 rounded-full bg-accent text-accent-foreground"
-                              >
-                                {r.name} {r.percentage}%
-                              </span>
-                            ))}
-                            {set.reserves.length > 4 && (
-                              <span className="text-xs px-2 py-0.5 rounded-full bg-accent text-accent-foreground">
-                                +{set.reserves.length - 4}
-                              </span>
-                            )}
-                          </div>
-                          <Button
-                            size="sm"
-                            variant={isActive ? "secondary" : "default"}
-                            className="w-full gap-2"
-                            onClick={() => handleApplySet(set)}
-                            disabled={isActive}
+                <Carousel opts={{ align: "start" }} className="w-full">
+                  <CarouselContent className="-ml-3">
+                    {sets.map((set, idx) => {
+                      const isActive = set.id === activeSetId;
+                      const gradient = SET_GRADIENTS[idx % SET_GRADIENTS.length];
+                      return (
+                        <CarouselItem
+                          key={set.id}
+                          className="pl-3 basis-[78%] sm:basis-1/2 lg:basis-1/3"
+                        >
+                          <div
+                            className={`relative overflow-hidden rounded-2xl p-5 h-full bg-gradient-to-br ${gradient} shadow-lg transition-all ${
+                              isActive ? "ring-2 ring-offset-2 ring-offset-background ring-primary" : ""
+                            }`}
                           >
-                            <FolderOpen className="h-4 w-4" />
-                            {isActive ? "Aplicado" : "Aplicar"}
-                          </Button>
-                        </CardContent>
-                      </Card>
-                    );
-                  })}
-                </div>
+                            <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/10" />
+                            <div className="absolute -right-12 top-12 h-24 w-24 rounded-full bg-white/5" />
+                            <div className="relative space-y-4">
+                              <div className="flex items-start justify-between gap-2">
+                                <div className="min-w-0">
+                                  <p className="text-xs uppercase tracking-wider opacity-80">Conjunto</p>
+                                  <p className="font-bold text-lg truncate">{set.name}</p>
+                                  <p className="text-xs opacity-80">{set.reserves.length} reservas</p>
+                                </div>
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  className="h-7 w-7 text-current hover:bg-white/20 hover:text-current shrink-0"
+                                  onClick={() => handleDeleteSet(set.id)}
+                                >
+                                  <Trash2 className="h-3.5 w-3.5" />
+                                </Button>
+                              </div>
+                              <div className="flex flex-wrap gap-1">
+                                {set.reserves.slice(0, 4).map((r) => (
+                                  <span
+                                    key={r.id}
+                                    className="text-xs px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-sm"
+                                  >
+                                    {r.name} {r.percentage}%
+                                  </span>
+                                ))}
+                                {set.reserves.length > 4 && (
+                                  <span className="text-xs px-2 py-0.5 rounded-full bg-white/20">
+                                    +{set.reserves.length - 4}
+                                  </span>
+                                )}
+                              </div>
+                              <Button
+                                size="sm"
+                                className="w-full gap-2 bg-white/95 text-slate-900 hover:bg-white"
+                                onClick={() => handleApplySet(set)}
+                                disabled={isActive}
+                              >
+                                {isActive ? <Check className="h-4 w-4" /> : <Sparkles className="h-4 w-4" />}
+                                {isActive ? "Aplicado" : "Aplicar"}
+                              </Button>
+                            </div>
+                          </div>
+                        </CarouselItem>
+                      );
+                    })}
+                  </CarouselContent>
+                  <CarouselPrevious className="hidden sm:flex" />
+                  <CarouselNext className="hidden sm:flex" />
+                </Carousel>
               )}
             </CollapsibleContent>
           </section>
