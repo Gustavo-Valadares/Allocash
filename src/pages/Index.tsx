@@ -96,7 +96,7 @@ const Index = () => {
           s.id === activeSetId ? { ...s, name, reserves: [...reserves] } : s
         )
       );
-      toast({ title: "Conjunto atualizado", description: `"${name}" foi atualizado.` });
+      toast({ title: "Filtro atualizado", description: `"${name}" foi atualizado.` });
     } else {
       const newSet: ReserveSet = {
         id: crypto.randomUUID(),
