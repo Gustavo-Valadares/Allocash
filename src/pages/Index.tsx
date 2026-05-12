@@ -1,16 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Plus, Wallet, PieChart, UserPlus, Save, Sparkles, RefreshCw, Trash2, Layers, ChevronRight, Check } from "lucide-react";
+import { Plus, Wallet, PieChart, UserPlus, RefreshCw, Trash2, Filter, ChevronRight, Check, Loader2 } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
-
-const SET_GRADIENTS = [
-  "from-violet-500 to-indigo-600 text-white",
-  "from-cyan-400 to-sky-500 text-white",
-  "from-fuchsia-500 to-pink-600 text-white",
-  "from-emerald-400 to-teal-600 text-white",
-  "from-amber-400 to-orange-500 text-white",
-  "from-slate-700 to-slate-900 text-white",
-];
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
@@ -45,6 +36,7 @@ const Index = () => {
   const [sets, setSets] = useState<ReserveSet[]>([]);
   const [setNameModalOpen, setSetNameModalOpen] = useState(false);
   const [activeSetId, setActiveSetId] = useState<string | null>(null);
+  const [applyingId, setApplyingId] = useState<string | null>(null);
   const [setsOpen, setSetsOpen] = useState(true);
   const [reservesOpen, setReservesOpen] = useState(true);
 
@@ -104,7 +96,7 @@ const Index = () => {
           s.id === activeSetId ? { ...s, name, reserves: [...reserves] } : s
         )
       );
-      toast({ title: "Conjunto atualizado", description: `"${name}" foi atualizado.` });
+      toast({ title: "Filtro atualizado", description: `"${name}" foi atualizado.` });
     } else {
       const newSet: ReserveSet = {
         id: crypto.randomUUID(),
@@ -114,14 +106,19 @@ const Index = () => {
       };
       setSets((prev) => [newSet, ...prev]);
       setActiveSetId(newSet.id);
-      toast({ title: "Conjunto salvo", description: `"${name}" foi adicionado em Meus conjuntos.` });
+      toast({ title: "Filtro salvo", description: `"${name}" foi adicionado em Meus filtros.` });
     }
   };
 
   const handleApplySet = (set: ReserveSet) => {
-    setReserves(set.reserves.map((r) => ({ ...r, id: crypto.randomUUID() })));
-    setActiveSetId(set.id);
-    toast({ title: "Conjunto aplicado", description: `"${set.name}" foi carregado.` });
+    if (set.id === activeSetId || applyingId) return;
+    setApplyingId(set.id);
+    setTimeout(() => {
+      setReserves(set.reserves.map((r) => ({ ...r, id: crypto.randomUUID() })));
+      setActiveSetId(set.id);
+      setApplyingId(null);
+      toast({ title: "Filtro aplicado", description: `"${set.name}" foi carregado.` });
+    }, 700);
   };
 
   const handleDeleteSet = (id: string) => {
@@ -183,14 +180,14 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Meus Conjuntos */}
+        {/* Meus Filtros */}
         <Collapsible open={setsOpen} onOpenChange={setSetsOpen} asChild>
           <section className="space-y-4">
             <div className="flex items-center justify-between gap-2">
               <CollapsibleTrigger asChild>
                 <button className="flex items-center gap-2 text-lg font-semibold group">
-                  <Layers className="h-5 w-5" />
-                  Meus conjuntos
+                  <Filter className="h-5 w-5" />
+                  Meus filtros
                   <span className="text-xs text-muted-foreground font-normal">({sets.length})</span>
                   <ChevronRight
                     className={`h-4 w-4 text-muted-foreground transition-transform ${setsOpen ? "rotate-90" : ""}`}
@@ -200,7 +197,7 @@ const Index = () => {
               {reserves.length > 0 && (
                 <Button size="sm" variant="outline" onClick={handleNewSet} className="gap-2">
                   <Plus className="h-4 w-4" />
-                  <span className="hidden sm:inline">Novo conjunto</span>
+                  <span className="hidden sm:inline">Novo filtro</span>
                 </Button>
               )}
             </div>
@@ -209,22 +206,25 @@ const Index = () => {
               {sets.length === 0 ? (
                 <Card>
                   <CardContent className="py-8 text-center text-muted-foreground text-sm">
-                    Nenhum conjunto salvo. Crie reservas abaixo e clique em "Salvar conjunto".
+                    Nenhum filtro salvo. Crie reservas abaixo e clique em "Salvar filtro".
                   </CardContent>
                 </Card>
               ) : (
                 <Carousel opts={{ align: "start" }} className="w-full">
                   <CarouselContent className="-ml-3">
-                    {sets.map((set, idx) => {
+                    {sets.map((set) => {
                       const isActive = set.id === activeSetId;
-                      const gradient = SET_GRADIENTS[idx % SET_GRADIENTS.length];
+                      const isApplying = applyingId === set.id;
                       return (
                         <CarouselItem
                           key={set.id}
                           className="pl-3 basis-[78%] sm:basis-1/2 lg:basis-1/3"
                         >
-                          <div
-                            className={`relative overflow-hidden rounded-2xl p-5 h-full bg-gradient-to-br ${gradient} shadow-lg transition-all ${
+                          <button
+                            type="button"
+                            onClick={() => handleApplySet(set)}
+                            disabled={isActive || !!applyingId}
+                            className={`group relative overflow-hidden rounded-2xl p-5 h-full w-full text-left bg-primary text-primary-foreground shadow-lg transition-all hover:shadow-xl hover:-translate-y-0.5 disabled:hover:translate-y-0 disabled:cursor-default ${
                               isActive ? "ring-2 ring-offset-2 ring-offset-background ring-primary" : ""
                             }`}
                           >
@@ -233,18 +233,42 @@ const Index = () => {
                             <div className="relative space-y-4">
                               <div className="flex items-start justify-between gap-2">
                                 <div className="min-w-0">
-                                  <p className="text-xs uppercase tracking-wider opacity-80">Conjunto</p>
+                                  <p className="text-xs uppercase tracking-wider opacity-80">Filtro</p>
                                   <p className="font-bold text-lg truncate">{set.name}</p>
                                   <p className="text-xs opacity-80">{set.reserves.length} reservas</p>
                                 </div>
-                                <Button
-                                  variant="ghost"
-                                  size="icon"
-                                  className="h-7 w-7 text-current hover:bg-white/20 hover:text-current shrink-0"
-                                  onClick={() => handleDeleteSet(set.id)}
-                                >
-                                  <Trash2 className="h-3.5 w-3.5" />
-                                </Button>
+                                <div className="flex items-center gap-1 shrink-0">
+                                  {isApplying && (
+                                    <span className="flex items-center gap-1.5 text-xs bg-white/20 backdrop-blur-sm rounded-full px-2 py-1">
+                                      <Loader2 className="h-3 w-3 animate-spin" />
+                                      Aplicando
+                                    </span>
+                                  )}
+                                  {isActive && !isApplying && (
+                                    <span className="flex items-center gap-1 text-xs bg-white/25 backdrop-blur-sm rounded-full px-2 py-1">
+                                      <Check className="h-3 w-3" />
+                                      Aplicado
+                                    </span>
+                                  )}
+                                  <span
+                                    role="button"
+                                    tabIndex={0}
+                                    aria-label="Excluir filtro"
+                                    className="h-7 w-7 inline-flex items-center justify-center rounded-md hover:bg-white/20 transition-colors"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleDeleteSet(set.id);
+                                    }}
+                                    onKeyDown={(e) => {
+                                      if (e.key === "Enter" || e.key === " ") {
+                                        e.stopPropagation();
+                                        handleDeleteSet(set.id);
+                                      }
+                                    }}
+                                  >
+                                    <Trash2 className="h-3.5 w-3.5" />
+                                  </span>
+                                </div>
                               </div>
                               <div className="flex flex-wrap gap-1">
                                 {set.reserves.slice(0, 4).map((r) => (
@@ -261,17 +285,8 @@ const Index = () => {
                                   </span>
                                 )}
                               </div>
-                              <Button
-                                size="sm"
-                                className="w-full gap-2 bg-white/95 text-slate-900 hover:bg-white"
-                                onClick={() => handleApplySet(set)}
-                                disabled={isActive}
-                              >
-                                {isActive ? <Check className="h-4 w-4" /> : <Sparkles className="h-4 w-4" />}
-                                {isActive ? "Aplicado" : "Aplicar"}
-                              </Button>
                             </div>
-                          </div>
+                          </button>
                         </CarouselItem>
                       );
                     })}
@@ -299,23 +314,30 @@ const Index = () => {
                       />
                     </h2>
                     {activeSet && (
-                      <p className="text-xs text-muted-foreground">Editando conjunto salvo</p>
+                      <p className="text-xs text-muted-foreground">Editando filtro salvo</p>
                     )}
                   </div>
                 </button>
               </CollapsibleTrigger>
               <div className="flex gap-2">
-                {reserves.length > 0 && (
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => setSetNameModalOpen(true)}
-                    className="gap-2"
-                  >
-                    {activeSet ? <RefreshCw className="h-4 w-4" /> : <Save className="h-4 w-4" />}
-                    <span className="hidden sm:inline">{activeSet ? "Atualizar conjunto" : "Salvar conjunto"}</span>
-                  </Button>
-                )}
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => setSetNameModalOpen(true)}
+                  disabled={reserves.length === 0}
+                  className="gap-2 disabled:opacity-40"
+                  title={reserves.length === 0 ? "Adicione ao menos uma reserva" : undefined}
+                >
+                  {activeSet ? (
+                    <RefreshCw className="h-4 w-4" />
+                  ) : (
+                    <span className="relative inline-flex items-center justify-center">
+                      <Filter className="h-4 w-4" />
+                      <Plus className="h-2.5 w-2.5 absolute -right-2 -top-1 stroke-[3]" />
+                    </span>
+                  )}
+                  <span className="hidden sm:inline">{activeSet ? "Atualizar filtro" : "Salvar filtro"}</span>
+                </Button>
                 <Button onClick={handleNew} size="sm" disabled={remainingPercentage <= 0}>
                   <Plus className="h-4 w-4 mr-1" />
                   Nova Reserva
@@ -361,7 +383,7 @@ const Index = () => {
                   <PieChart className="h-12 w-12 mx-auto mb-3 opacity-30" />
                   <p>Nenhuma reserva criada.</p>
                   <p className="text-sm">
-                    Clique em "Nova Reserva" para começar ou aplique um conjunto salvo.
+                    Clique em "Nova Reserva" para começar ou aplique um filtro salvo.
                   </p>
                 </div>
               ) : (
