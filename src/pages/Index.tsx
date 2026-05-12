@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Plus, Wallet, PieChart, UserPlus, RefreshCw, Trash2, Filter, ChevronRight, Check, Loader2 } from "lucide-react";
+import { Plus, Wallet, PieChart, UserPlus, ClipboardEdit, Trash2, Filter, ChevronRight, Check, Loader2 } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -303,8 +303,10 @@ const Index = () => {
               <CollapsibleTrigger asChild>
                 <button className="flex items-center gap-2 text-left group">
                   <div>
-                    <h2 className="text-lg font-semibold flex items-center gap-2">
-                      {activeSet ? `Reservas — ${activeSet.name}` : "Reservas"}
+                    <h2 className="font-semibold flex items-center gap-2">
+                      <span className={activeSet ? "text-xl" : "text-lg"}>
+                        {activeSet ? activeSet.name : "Reservas"}
+                      </span>
                       <span className="text-xs text-muted-foreground font-normal">({reserves.length})</span>
                       <ChevronRight
                         className={`h-4 w-4 text-muted-foreground transition-transform ${reservesOpen ? "rotate-90" : ""}`}
