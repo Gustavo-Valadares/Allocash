@@ -111,9 +111,14 @@ const Index = () => {
   };
 
   const handleApplySet = (set: ReserveSet) => {
-    setReserves(set.reserves.map((r) => ({ ...r, id: crypto.randomUUID() })));
-    setActiveSetId(set.id);
-    toast({ title: "Conjunto aplicado", description: `"${set.name}" foi carregado.` });
+    if (set.id === activeSetId || applyingId) return;
+    setApplyingId(set.id);
+    setTimeout(() => {
+      setReserves(set.reserves.map((r) => ({ ...r, id: crypto.randomUUID() })));
+      setActiveSetId(set.id);
+      setApplyingId(null);
+      toast({ title: "Filtro aplicado", description: `"${set.name}" foi carregado.` });
+    }, 700);
   };
 
   const handleDeleteSet = (id: string) => {
