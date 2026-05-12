@@ -312,7 +312,7 @@ const Index = () => {
                     onClick={() => setSetNameModalOpen(true)}
                     className="gap-2"
                   >
-                    <Save className="h-4 w-4" />
+                    {activeSet ? <RefreshCw className="h-4 w-4" /> : <Save className="h-4 w-4" />}
                     <span className="hidden sm:inline">{activeSet ? "Atualizar conjunto" : "Salvar conjunto"}</span>
                   </Button>
                 )}
