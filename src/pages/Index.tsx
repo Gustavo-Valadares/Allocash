@@ -106,7 +106,7 @@ const Index = () => {
       };
       setSets((prev) => [newSet, ...prev]);
       setActiveSetId(newSet.id);
-      toast({ title: "Conjunto salvo", description: `"${name}" foi adicionado em Meus conjuntos.` });
+      toast({ title: "Filtro salvo", description: `"${name}" foi adicionado em Meus filtros.` });
     }
   };
 
