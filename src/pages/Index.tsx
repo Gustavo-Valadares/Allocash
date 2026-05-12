@@ -383,7 +383,7 @@ const Index = () => {
                   <PieChart className="h-12 w-12 mx-auto mb-3 opacity-30" />
                   <p>Nenhuma reserva criada.</p>
                   <p className="text-sm">
-                    Clique em "Nova Reserva" para começar ou aplique um conjunto salvo.
+                    Clique em "Nova Reserva" para começar ou aplique um filtro salvo.
                   </p>
                 </div>
               ) : (
