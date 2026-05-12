@@ -187,7 +187,7 @@ const Index = () => {
               <CollapsibleTrigger asChild>
                 <button className="flex items-center gap-2 text-lg font-semibold group">
                   <Filter className="h-5 w-5" />
-                  Meus filtros
+                  Meus Filtros
                   <span className="text-xs text-muted-foreground font-normal">({sets.length})</span>
                   <ChevronRight
                     className={`h-4 w-4 text-muted-foreground transition-transform ${setsOpen ? "rotate-90" : ""}`}
@@ -224,28 +224,25 @@ const Index = () => {
                             type="button"
                             onClick={() => handleApplySet(set)}
                             disabled={isActive || !!applyingId}
-                            className={`group relative overflow-hidden rounded-2xl p-5 h-full w-full text-left bg-primary text-primary-foreground shadow-lg transition-all hover:shadow-xl hover:-translate-y-0.5 disabled:hover:translate-y-0 disabled:cursor-default ${
-                              isActive ? "ring-2 ring-offset-2 ring-offset-background ring-primary" : ""
+                            className={`group relative rounded-2xl p-5 h-full w-full text-left bg-card border border-border shadow-sm transition-all hover:border-primary/50 hover:shadow-md hover:-translate-y-0.5 disabled:hover:translate-y-0 disabled:cursor-default ${
+                              isActive ? "border-primary ring-1 ring-primary" : ""
                             }`}
                           >
-                            <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/10" />
-                            <div className="absolute -right-12 top-12 h-24 w-24 rounded-full bg-white/5" />
-                            <div className="relative space-y-4">
+                            <div className="space-y-3">
                               <div className="flex items-start justify-between gap-2">
                                 <div className="min-w-0">
-                                  <p className="text-xs uppercase tracking-wider opacity-80">Filtro</p>
-                                  <p className="font-bold text-lg truncate">{set.name}</p>
-                                  <p className="text-xs opacity-80">{set.reserves.length} reservas</p>
+                                  <p className="font-bold text-base truncate text-foreground">{set.name}</p>
+                                  <p className="text-xs text-muted-foreground">{set.reserves.length} reservas</p>
                                 </div>
                                 <div className="flex items-center gap-1 shrink-0">
                                   {isApplying && (
-                                    <span className="flex items-center gap-1.5 text-xs bg-white/20 backdrop-blur-sm rounded-full px-2 py-1">
+                                    <span className="flex items-center gap-1.5 text-xs bg-primary/10 text-primary rounded-full px-2 py-1">
                                       <Loader2 className="h-3 w-3 animate-spin" />
                                       Aplicando
                                     </span>
                                   )}
                                   {isActive && !isApplying && (
-                                    <span className="flex items-center gap-1 text-xs bg-white/25 backdrop-blur-sm rounded-full px-2 py-1">
+                                    <span className="flex items-center gap-1 text-xs bg-primary/10 text-primary rounded-full px-2 py-1">
                                       <Check className="h-3 w-3" />
                                       Aplicado
                                     </span>
@@ -254,7 +251,7 @@ const Index = () => {
                                     role="button"
                                     tabIndex={0}
                                     aria-label="Excluir filtro"
-                                    className="h-7 w-7 inline-flex items-center justify-center rounded-md hover:bg-white/20 transition-colors"
+                                    className="h-7 w-7 inline-flex items-center justify-center rounded-md text-destructive hover:bg-destructive/10 transition-colors"
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       handleDeleteSet(set.id);
@@ -270,17 +267,17 @@ const Index = () => {
                                   </span>
                                 </div>
                               </div>
-                              <div className="flex flex-wrap gap-1">
+                              <div className="flex flex-wrap gap-1.5">
                                 {set.reserves.slice(0, 4).map((r) => (
                                   <span
                                     key={r.id}
-                                    className="text-xs px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-sm"
+                                    className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary"
                                   >
                                     {r.name} {r.percentage}%
                                   </span>
                                 ))}
                                 {set.reserves.length > 4 && (
-                                  <span className="text-xs px-2 py-0.5 rounded-full bg-white/20">
+                                  <span className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary">
                                     +{set.reserves.length - 4}
                                   </span>
                                 )}
@@ -336,7 +333,7 @@ const Index = () => {
                       <Plus className="h-2.5 w-2.5 absolute -right-2 -top-1 stroke-[3]" />
                     </span>
                   )}
-                  <span className="hidden sm:inline">{activeSet ? "Atualizar filtro" : "Salvar filtro"}</span>
+                  <span className="hidden sm:inline">{activeSet ? "Renomear" : "Salvar filtro"}</span>
                 </Button>
                 <Button onClick={handleNew} size="sm" disabled={remainingPercentage <= 0}>
                   <Plus className="h-4 w-4 mr-1" />
