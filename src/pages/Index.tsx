@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Plus, Wallet, PieChart, UserPlus, ClipboardEdit, Trash2, Filter, ChevronRight, Check, Loader2 } from "lucide-react";
+import { Plus, Wallet, PieChart, UserPlus, ClipboardEdit, Trash2, Filter, ChevronRight, Check, Loader2, X } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -194,10 +194,16 @@ const Index = () => {
                   />
                 </button>
               </CollapsibleTrigger>
-              {reserves.length > 0 && (
-                <Button size="sm" variant="outline" onClick={handleNewSet} className="gap-2">
-                  <Plus className="h-4 w-4" />
-                  <span className="hidden sm:inline">Novo filtro</span>
+              {activeSet && (
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={handleNewSet}
+                  className="gap-2"
+                  title="Remover filtro atual"
+                >
+                  <X className="h-4 w-4" />
+                  <span className="hidden sm:inline">Remover filtro</span>
                 </Button>
               )}
             </div>
@@ -335,7 +341,7 @@ const Index = () => {
                       <Plus className="h-2.5 w-2.5 absolute -right-2 -top-1 stroke-[3]" />
                     </span>
                   )}
-                  <span className="hidden sm:inline">{activeSet ? "Renomear" : "Salvar filtro"}</span>
+                  <span className="hidden sm:inline">{activeSet ? "Renomear" : "Novo Filtro"}</span>
                 </Button>
                 <Button onClick={handleNew} size="sm" disabled={remainingPercentage <= 0}>
                   <Plus className="h-4 w-4 mr-1" />
