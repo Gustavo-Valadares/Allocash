@@ -135,7 +135,6 @@ const Index = () => {
       setReserves(set.reserves.map((r) => ({ ...r, id: crypto.randomUUID() })));
       setActiveSetId(set.id);
       setApplyingId(null);
-      toast({ title: "Filtro aplicado", description: `"${set.name}" foi carregado.` });
     }, 700);
   };
 
@@ -170,7 +169,7 @@ const Index = () => {
   return (
     <div className="min-h-screen pb-16">
       {/* Header */}
-      <header className="border-b bg-card">
+      <header className="border-b bg-card pt-[env(safe-area-inset-top)]">
         <div className="container max-w-5xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -195,7 +194,7 @@ const Index = () => {
       </header>
 
       {/* Capital Input (sticky) */}
-      <div className="sticky top-0 z-30 bg-background/90 backdrop-blur-md border-b">
+      <div className="sticky top-0 z-30 bg-background/90 backdrop-blur-md border-b pt-[env(safe-area-inset-top)]">
         <div className="container max-w-5xl mx-auto px-4 py-3 sm:py-4">
           <label className="text-xs sm:text-sm font-medium text-muted-foreground block mb-1.5">
             Capital Total
