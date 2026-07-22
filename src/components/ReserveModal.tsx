@@ -84,7 +84,7 @@ const ReserveModal = ({ open, onClose, onSave, reserve, remainingPercentage }: R
             />
           </div>
         </div>
-        <DialogFooter>
+        <DialogFooter className="gap-2 sm:gap-3">
           <Button variant="outline" onClick={onClose}>Cancelar</Button>
           <Button onClick={handleSave}>Salvar</Button>
         </DialogFooter>
